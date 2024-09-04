@@ -52,7 +52,7 @@ void RunAction::BeginOfRunAction(const G4Run*) {
   // G4RunManager::GetRunManager()->SetRandomNumberStore(true);
 
   auto analysisManager = G4AnalysisManager::Instance();
-  analysisManager->OpenFile("muons_vs_rock.root");
+  analysisManager->OpenFile("../geant_output/muons_vs_rock.root");
 }
 
 void RunAction::EndOfRunAction(const G4Run*) {

@@ -1,3 +1,7 @@
+build/*
+geant_output/*
+scripts/plots/*
+
 # Prerequisites
 *.d
 
