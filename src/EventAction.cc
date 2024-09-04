@@ -83,8 +83,8 @@ namespace B4c
             analysisManager->FillNtupleDColumn( 5+6*iRock, energyAfter);
 
 
-           G4cout << "Energy after rock " << iRock << ": " << energiesAfterRock[iRock]/1000 << " GeV" << G4endl;
-           G4cout << "Track length in rock " << iRock << ": " << rockHit->GetTrackLength() << " m" << G4endl;
+        //    G4cout << "Energy after rock " << iRock << ": " << energiesAfterRock[iRock]/1000 << " GeV" << G4endl;
+        //    G4cout << "Track length in rock " << iRock << ": " << rockHit->GetTrackLength() << " m" << G4endl;
         }
 
         analysisManager->FillNtupleDColumn(6*nLayers, initialEnergy);

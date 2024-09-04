@@ -2,7 +2,7 @@ from array import array
 
 import numpy as np
 from ROOT import TH1D, TFile, TCanvas, gPad, TH2D, gStyle, TF1, TGraph
-from ROOT import kBlack, kRed, kBlue, kViolet, kGreen
+from ROOT import kBlack, kRed, kBlue, kViolet, kGreen, gROOT
 
 # input_file_path = "/Users/Jeremi/Documents/Physics/superLLP/data/geant_output/muonVsRock_energy-userUniform_nEvents-10000.root"
 # input_file_path = "/Users/Jeremi/Documents/Physics/superLLP/data/geant_output/muonVsRock_energy-userUniform_nEvents-100k_rock-10km_part-1.root"
@@ -25,12 +25,12 @@ input_file_path = "../geant_output/muons_vs_rock.root"
 # particle = "mu-"
 particle = "pi-"
 
-save_all_plots = True
+save_all_plots = False
 
 max_distance = 10  # m
 max_index = None
 
-n_fits = -1
+n_fits = 50
 log_scale_min = -3
 log_scale_max = 5
 rebin = 1
@@ -234,6 +234,7 @@ def fit_hist(hist, name="", starting_value=starting_value):
 
 def main():
     gStyle.SetOptStat(0)
+    gROOT.SetBatch(True)
 
     file = TFile.Open(input_file_path)
     tree = file.Get("ntuple")

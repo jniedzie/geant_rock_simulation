@@ -11,7 +11,7 @@
 ##/control/execute vis.mac
 
 
-/run/numberOfThreads 1
+# /run/numberOfThreads 1
 /run/initialize
 
 /tracking/verbose 0
@@ -74,6 +74,6 @@
 # /run/beamOn 10000
 
 # for pi-
-/run/beamOn 1
+/run/beamOn 1000
 
 #/control/execute vis.mac
