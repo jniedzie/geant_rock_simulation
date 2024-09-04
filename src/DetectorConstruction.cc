@@ -31,7 +31,7 @@ void DetectorConstruction::InitializeThicknesses() {
   // for(double thickness=1 ; thickness<10 ; thickness+=2) fRockThickness.push_back(thickness*m);
   // for(double thickness=10; thickness<200; thickness+=10) fRockThickness.push_back(thickness*m);
   for (double thickness = 0.002; thickness < 1; thickness += 0.002) fRockThickness.push_back(thickness * m);
-  for (double thickness = 1; thickness < 200; thickness += 1) fRockThickness.push_back(thickness * m);
+  for (double thickness = 1; thickness < 100; thickness += 1) fRockThickness.push_back(thickness * m);
 
   // for muons
   // for(double thickness=1 ; thickness<100 ; thickness+=1  ) fRockThickness.push_back(thickness*m);
@@ -73,14 +73,10 @@ void DetectorConstruction::DefineMaterials() {
 
 std::vector<double> DetectorConstruction::GetRockEndEdges() {
   InitializeThicknesses();
-
-  G4double detectorThickness = 1. * mm;
   G4double transverseSize = 1000. * m;
-
-  G4double rockPlusDetectorsThickness = fRockThickness[fRockThickness.size() - 1] + fRockThickness.size() * detectorThickness;
-
+  G4double totalDetectorThickness = fRockThickness[fRockThickness.size() - 1];
   auto worldSizeXY = 1.2 * transverseSize;
-  auto worldSizeZ = 1.2 * rockPlusDetectorsThickness * 2;
+  auto worldSizeZ = 1.2 * totalDetectorThickness * 2;
   fWorldZmin = worldSizeZ / 2;
 
   G4double rockBeginning = 0;
@@ -90,9 +86,9 @@ std::vector<double> DetectorConstruction::GetRockEndEdges() {
 
   for (int iRock = 0; iRock < (int)fRockThickness.size(); iRock++) {
     auto thisRockThickness = fRockThickness[iRock] - thicknessSoFar;
-    thicknessSoFar += thisRockThickness + detectorThickness;
+    thicknessSoFar += thisRockThickness;
     fRockEndEdges.push_back(rockBeginning + thisRockThickness);
-    rockBeginning += thisRockThickness + detectorThickness;
+    rockBeginning += thisRockThickness;
   }
 
   return fRockEndEdges;
@@ -104,15 +100,15 @@ int DetectorConstruction::GetNumberOfLayers() {
 }
 
 G4VPhysicalVolume* DetectorConstruction::DefineVolumes() {
-  G4double detectorThickness = 1. * mm;
+  
   G4double transverseSize = 1000. * m;
 
   G4cout << "Total rock thickness: " << G4BestUnit(fRockThickness[fRockThickness.size() - 1], "Length") << G4endl;
 
-  G4double rockPlusDetectorsThickness = fRockThickness[fRockThickness.size() - 1] + fRockThickness.size() * detectorThickness;
+  G4double totalRockThickness = fRockThickness[fRockThickness.size() - 1];
 
   auto worldSizeXY = 1.2 * transverseSize;
-  auto worldSizeZ = 1.2 * rockPlusDetectorsThickness * 2;
+  auto worldSizeZ = 1.2 * totalRockThickness * 2;
   fWorldZmin = worldSizeZ / 2;
 
   auto vacuum = G4Material::GetMaterial("G4_Galactic");
@@ -131,16 +127,13 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes() {
 
   for (int iRock = 0; iRock < (int)fRockThickness.size(); iRock++) {
     auto thisRockThickness = fRockThickness[iRock] - thicknessSoFar;
-    thicknessSoFar += thisRockThickness + detectorThickness;
+    thicknessSoFar += thisRockThickness;
     auto rockVolume = GetVolume("Rock_" + std::to_string(iRock), transverseSize, thisRockThickness, standardRock);
-    auto detectorVolume = GetVolume("Detector_" + std::to_string(iRock), transverseSize, detectorThickness, vacuum);
-
+    
     PlaceVolume(rockVolume, worldVolume, rockBeginning + thisRockThickness / 2);
-    PlaceVolume(detectorVolume, worldVolume, rockBeginning + thisRockThickness + detectorThickness / 2);
     rockVolume->SetVisAttributes(simpleBoxVisAtt);
-    detectorVolume->SetVisAttributes(simpleBoxVisAtt);
-
-    rockBeginning += thisRockThickness + detectorThickness;
+    
+    rockBeginning += thisRockThickness;
   }
 
   return worldPV;
@@ -151,10 +144,6 @@ void DetectorConstruction::ConstructSDandField() {
     auto rockSD = new CalorimeterSD("RockSD_" + std::to_string(iRock), "RockHitsCollection_" + std::to_string(iRock));
     G4SDManager::GetSDMpointer()->AddNewDetector(rockSD);
     SetSensitiveDetector("Rock_" + std::to_string(iRock), rockSD);
-
-    auto detectorSD = new CalorimeterSD("DetectorSD_" + std::to_string(iRock), "DetectorHitsCollection_" + std::to_string(iRock));
-    G4SDManager::GetSDMpointer()->AddNewDetector(detectorSD);
-    SetSensitiveDetector("Detector_" + std::to_string(iRock), detectorSD);
   }
 }
 

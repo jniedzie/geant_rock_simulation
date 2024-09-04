@@ -23,9 +23,7 @@ RunAction::RunAction() {
 
   for (int iRock = 0; iRock < nLayers; iRock++) {
     analysisManager->CreateNtupleDColumn("E_rock_" + to_string(iRock));
-    analysisManager->CreateNtupleDColumn("E_det_" + to_string(iRock));
     analysisManager->CreateNtupleDColumn("L_rock_" + to_string(iRock));
-    analysisManager->CreateNtupleDColumn("L_det_" + to_string(iRock));
     analysisManager->CreateNtupleDColumn("N_passing_" + to_string(iRock));
     analysisManager->CreateNtupleDColumn("E_after_rock_" + to_string(iRock));
   }

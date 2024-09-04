@@ -23,7 +23,6 @@ namespace B4c
 
         // Create hits
         fHitsCollection->insert(new CalorHit());
-        fHitsCollection->insert(new CalorHit());
     }
 
     G4bool CalorimeterSD::ProcessHits(G4Step* step, G4TouchableHistory*)

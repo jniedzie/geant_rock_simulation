@@ -31,7 +31,6 @@ void EventAction::EndOfEventAction(const G4Event* event) {
   if (!filledID) {
     for (int iRock = 0; iRock < nLayers; iRock++) {
       rockID.push_back(G4SDManager::GetSDMpointer()->GetCollectionID("RockHitsCollection_" + std::to_string(iRock)));
-      detID.push_back(G4SDManager::GetSDMpointer()->GetCollectionID("DetectorHitsCollection_" + std::to_string(iRock)));
     }
     filledID = true;
   }
@@ -49,23 +48,20 @@ void EventAction::EndOfEventAction(const G4Event* event) {
 
     // Get hit with total values
     auto rockHit = (*rockHitsCollection)[rockHitsCollection->entries() - 1];
-    auto detHit = (*detectorHistsCollection)[detectorHistsCollection->entries() - 1];
-
-    analysisManager->FillNtupleDColumn(0 + 6 * iRock, rockHit->GetEdep());
-    analysisManager->FillNtupleDColumn(1 + 6 * iRock, detHit->GetEdep());
-    analysisManager->FillNtupleDColumn(2 + 6 * iRock, rockHit->GetTrackLength());
-    analysisManager->FillNtupleDColumn(3 + 6 * iRock, detHit->GetTrackLength());
-    analysisManager->FillNtupleDColumn(4 + 6 * iRock, rockHit->GetTrackLength() != 0);
+    
+    analysisManager->FillNtupleDColumn(0 + 4 * iRock, rockHit->GetEdep());
+    analysisManager->FillNtupleDColumn(1 + 4 * iRock, rockHit->GetTrackLength());
+    analysisManager->FillNtupleDColumn(2 + 4 * iRock, rockHit->GetTrackLength() != 0);
 
     double energyAfter = iRock < (int)energiesAfterRock.size() ? energiesAfterRock[iRock] : 0.0;
 
-    analysisManager->FillNtupleDColumn(5 + 6 * iRock, energyAfter);
+    analysisManager->FillNtupleDColumn(3 + 4 * iRock, energyAfter);
 
     //    G4cout << "Energy after rock " << iRock << ": " << energiesAfterRock[iRock]/1000 << " GeV" << G4endl;
     //    G4cout << "Track length in rock " << iRock << ": " << rockHit->GetTrackLength() << " m" << G4endl;
   }
 
-  analysisManager->FillNtupleDColumn(6 * nLayers, initialEnergy);
+  analysisManager->FillNtupleDColumn(4 * nLayers, initialEnergy);
 
   analysisManager->AddNtupleRow();
 }
