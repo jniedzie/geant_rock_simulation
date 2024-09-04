@@ -1,0 +1,79 @@
+# Macro file for example B4 test
+
+# /run/initialize
+
+# /tracking/verbose 0
+
+# /gun/particle mu+
+# /gun/energy 10 GeV
+# /run/beamOn 100
+
+##/control/execute vis.mac
+
+
+/run/numberOfThreads 1
+/run/initialize
+
+/tracking/verbose 0
+
+#/gun/particle mu-
+#/gun/energy 10 GeV
+#/gun/direction 0 0 1
+
+/gps/particle pi-
+/gps/direction 0 0 1
+
+# original
+# /gps/ene/min 0.1 GeV
+# /gps/ene/max 10 TeV
+
+/gps/ene/min 0.01 eV
+/gps/ene/max 10 TeV
+
+#/gps/ene/type Lin
+#/gps/ene/gradient 0
+#/gps/ene/intercept 1
+
+#/gps/ene/type Pow
+#/gps/ene/alpha -0.5
+
+#/gps/ene/type Exp
+#/gps/ene/ezero 1
+
+/gps/ene/type User
+/gps/hist/type energy
+
+
+# 1410.7076 initial distribution:
+#/gps/hist/point 10 0
+#/gps/hist/point 100 0
+#/gps/hist/point 1000 0.2
+#/gps/hist/point 10000 0.35
+#/gps/hist/point 100000 0.4
+#/gps/hist/point 1000000 0.3
+#/gps/hist/point 10000000 0.1
+
+# flat distribution
+/gps/hist/point 10 0
+/gps/hist/point 100 0
+/gps/hist/point 1000 1
+/gps/hist/point 2150 1
+/gps/hist/point 4640 1
+/gps/hist/point 10000 1
+/gps/hist/point 21500 1
+/gps/hist/point 46400 1
+/gps/hist/point 100000 1
+/gps/hist/point 215000 1
+/gps/hist/point 464000 1
+/gps/hist/point 1000000 1
+/gps/hist/point 2150000 1
+/gps/hist/point 4640000 1
+/gps/hist/point 10000000 1
+
+# for mu-
+# /run/beamOn 10000
+
+# for pi-
+/run/beamOn 1
+
+#/control/execute vis.mac

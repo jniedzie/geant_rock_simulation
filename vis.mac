@@ -1,0 +1,106 @@
+/vis/open OGL 1000x1000-0+0
+
+# Disable auto refresh and quieten vis messages whilst scene and
+# trajectories are established:
+/vis/viewer/set/autoRefresh false
+/vis/verbose errors
+
+# Draw geometry:
+/vis/drawVolume
+
+# Specify view angle:
+/vis/viewer/set/viewpointVector -1 0 0
+/vis/viewer/set/lightsVector -1 0 0
+
+# Specify style (surface, wireframe, auxiliary edges,...)
+/vis/viewer/set/style wireframe
+/vis/viewer/set/auxiliaryEdge true
+/vis/viewer/set/lineSegmentsPerCircle 100
+
+# Draw smooth trajectories at end of event, showing trajectory points
+# as markers 2 pixels wide:
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByCharge
+#/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+#/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
+# (if too many tracks cause core dump => /tracking/storeTrajectory 0)
+
+# Draw hits at end of event:
+# /vis/scene/add/hits
+
+
+# To draw only gammas:
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add mu+ mu-
+
+# To invert the above, drawing all particles except gammas,
+# keep the above two lines but also add:
+#/vis/filtering/trajectories/particleFilter-0/invert true
+
+# Many other options are available with /vis/modeling and /vis/filtering.
+# For example, to select colour by particle ID:
+/vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
+
+# To select or override default colours (note: e+ is blue by default):
+#/vis/modeling/trajectories/list
+/vis/modeling/trajectories/drawByParticleID-0/set mu+ green
+/vis/modeling/trajectories/drawByParticleID-0/set mu- green
+/vis/modeling/trajectories/drawByParticleID-0/set e+ blue
+/vis/modeling/trajectories/drawByParticleID-0/set e- blue
+/vis/modeling/trajectories/drawByParticleID-0/set neutron red
+/vis/modeling/trajectories/drawByParticleID-0/set proton red
+/vis/modeling/trajectories/drawByParticleID-0/set gamma violet
+/vis/modeling/trajectories/drawByParticleID-0/set pi+ yellow
+/vis/modeling/trajectories/drawByParticleID-0/set pi- yellow
+
+
+# To superimpose all of the events from a given run:
+/vis/scene/endOfEventAction accumulate
+
+
+# Axes, scale, etc.
+/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
+/vis/scene/add/eventID # Drawn at end of event
+#/vis/scene/add/date    # Date stamp
+
+# To get nice view
+
+/vis/geometry/set/colour World 0 1 1 1 0.3
+/vis/geometry/set/visibility World 0 true
+
+/vis/geometry/set/colour Rock_0 0 1 0 0 .3
+/vis/geometry/set/colour Rock_1 0 1 0 0 .3
+/vis/geometry/set/colour Rock_2 0 1 0 0 .3
+/vis/geometry/set/colour Rock_3 0 1 0 0 .3
+/vis/geometry/set/colour Rock_4 0 1 0 0 .3
+/vis/geometry/set/colour Rock_5 0 1 0 0 .3
+/vis/geometry/set/colour Rock_6 0 1 0 0 .3
+/vis/geometry/set/colour Rock_7 0 1 0 0 .3
+/vis/geometry/set/colour Rock_8 0 1 0 0 .3
+/vis/geometry/set/colour Rock_9 0 1 0 0 .3
+/vis/geometry/set/colour Rock_10 0 1 0 0 .3
+
+#/vis/geometry/set/visibility Rock 0 true
+
+/vis/geometry/set/colour Detector_0 0 1 1 0 .3
+/vis/geometry/set/colour Detector_1 0 1 1 0 .3
+/vis/geometry/set/colour Detector_2 0 1 1 0 .3
+/vis/geometry/set/colour Detector_3 0 1 1 0 .3
+/vis/geometry/set/colour Detector_4 0 1 1 0 .3
+/vis/geometry/set/colour Detector_5 0 1 1 0 .3
+/vis/geometry/set/colour Detector_6 0 1 1 0 .3
+/vis/geometry/set/colour Detector_7 0 1 1 0 .3
+/vis/geometry/set/colour Detector_8 0 1 1 0 .3
+/vis/geometry/set/colour Detector_9 0 1 1 0 .3
+/vis/geometry/set/colour Detector_10 0 1 1 0 .3
+
+#/vis/geometry/set/visibility Detector 0 true
+
+/vis/viewer/set/style w
+/vis/viewer/set/hiddenMarker true
+/vis/viewer/set/viewpointThetaPhi 50 150
+
+# Re-establish auto refreshing and verbosity:
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
